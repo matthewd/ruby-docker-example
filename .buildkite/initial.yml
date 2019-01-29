@@ -11,7 +11,7 @@ steps:
       echo ".buildkite tree is $${treesha}"
       if curl "https://gist.githubusercontent.com/matthewd/3f98bcc9957c8ddf2204a390bf3a6cdd/raw/list" | grep -a -F -x "$${treesha}"; then
         echo "Known tree; generating pipeline"
-        .buildkite/pipeline-generate | buildkite-agent pipeline upload
+        docker run --rm -v "`pwd`":/app:ro -w /app ruby:latest .buildkite/pipeline-generate | buildkite-agent pipeline upload
       else
         echo "Unknown tree; requesting approval"
         buildkite-agent pipeline upload <<NESTED
@@ -21,6 +21,6 @@ steps:
             This commit uses new build configuration. Please review the changes in .buildkite/ carefully before unblocking.
         - name: ":pipeline:"
           command: |
-            .buildkite/pipeline-generate | buildkite-agent pipeline upload
+            docker run --rm -v "`pwd`":/app:ro -w /app ruby:latest .buildkite/pipeline-generate | buildkite-agent pipeline upload
       NESTED
       fi
