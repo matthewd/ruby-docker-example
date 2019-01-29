@@ -14,5 +14,13 @@ steps:
         .buildkite/pipeline-generate | buildkite-agent pipeline upload
       else
         echo "Unknown tree; requesting approval"
-        buildkite-agent pipeline upload .buildkite/approval-request.yml
+        buildkite-agent pipeline upload <<NESTED
+      steps:
+        - block: "Review Build Script"
+          prompt: |
+            This commit uses new build configuration. Please review the changes in .buildkite/ carefully before unblocking.
+        - name: ":pipeline:"
+          command: |
+            .buildkite/pipeline-generate | buildkite-agent pipeline upload
+      NESTED
       fi
