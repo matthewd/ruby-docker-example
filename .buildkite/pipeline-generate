@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+PATH=/bin:/usr/bin
+
+# This script runs on the build agent instance, not inside the docker
+# container that runs the rest of the build. That means it has a more
+# constrained environment available to it, and also that it should take
+# some care not to pollute the build machine.
+
+
+# For testing purposes a static config is sufficient.
+/bin/cat .buildkite/pipeline.yml

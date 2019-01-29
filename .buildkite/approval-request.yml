@@ -1,0 +1,7 @@
+steps:
+  - block: "Review Build Script"
+    prompt: |
+      This commit uses new build configuration. Please review the changes in .buildkite/ carefully before unblocking.
+  - name: ":pipeline:"
+    command: |
+      .buildkite/pipeline-generate | buildkite-agent pipeline upload
