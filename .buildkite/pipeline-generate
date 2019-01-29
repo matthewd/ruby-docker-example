@@ -9,6 +9,5 @@ PATH=/bin:/usr/bin
 # some care not to pollute the build machine.
 
 
-
 # For testing purposes a static config is sufficient.
 /bin/cat .buildkite/pipeline.yml
