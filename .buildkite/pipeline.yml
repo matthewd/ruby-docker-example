@@ -1,6 +1,14 @@
-steps:
-  - name: ":rspec:"
-    command: "rspec --color specs"
+_templates:
+  - &base
     plugins:
       docker-compose#v2.6.0:
         run: app
+        config: .buildkite/docker-compose.yml
+    timeout_in_minutes: 10
+
+steps:
+  - <<: *base
+    name: ":rspec:"
+    command: "rspec --color specs"
+    env:
+      RUBY_IMAGE: "ruby:2.5"
